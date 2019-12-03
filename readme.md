@@ -20,18 +20,22 @@ All will run locally using minikube and HELM for deployemnt.
 ### Next we will need the Charts for Helm:
 
 Jenkins: https://hub.helm.sh/charts/codecentric/jenkins
-Nexus:
+Nexus: https://hub.helm.sh/charts/choerodon/nexus3
 SonarQube:
 
 
 ### Let's start deploying
 
-Make sure that VirtualBox is running.
+It is recommended to change the default config of minikube to better suit the needs of this assignment. This can be done by updating the minikube config file or by running the following commands:
+```
+$ minikube config set memory 4096
+$ minikube config set cpus 6
+$ minikube config set disk-size 4000MB
+```
 run minikube 
 ```
 $ minikube start
 ```
-
 check that all is well
 ```
 $ kubectl get nodes
