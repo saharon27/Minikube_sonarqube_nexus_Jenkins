@@ -43,21 +43,22 @@ $ kubectl get nodes
 The output should show you the basic cluster info consists with one node.
 
  #### Execute the following command to route the connection for Nexus service:
-  export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" svc nexus-nexus3)
-  export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
-  echo http://$NODE_IP:$NODE_PORT/
-  
+```
+export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" svc nexus-nexus3)
+export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
+echo http://$NODE_IP:$NODE_PORT/
+```  
   #### Jenkins
   #### Use the following command to retrieve admin password:
-
+```
 export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=jenkins,app.kubernetes.io/instance=jenkins" -o jsonpath="{.items[0].metadata.name}")
 kubectl exec --namespace default "$POD_NAME" cat /var/jenkins_home/secrets/initialAdminPassword
-
+```
 
 #### Accessing your Jenkins server:
 
 Create port forwarding to access Jenkins at http://127.0.0.1:8080
-
+```
 export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=jenkins,app.kubernetes.io/instance=jenkins" -o jsonpath="{.items[0].metadata.name}")
 kubectl port-forward --namespace default "$POD_NAME" 8080:8080
-
+```
