@@ -28,9 +28,9 @@ SonarQube:
 
 It is recommended to change the default config of minikube to better suit the needs of this assignment. This can be done by updating the minikube config file or by running the following commands:
 ```
-$ minikube config set memory 4096
+$ minikube config set memory 6144
 $ minikube config set cpus 6
-$ minikube config set disk-size 4000MB
+$ minikube config set disk-size 8000MB
 ```
 run minikube 
 ```
