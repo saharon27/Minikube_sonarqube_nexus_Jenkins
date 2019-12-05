@@ -30,7 +30,7 @@ It is recommended to change the default config of minikube to better suit the ne
 ```
 $ minikube config set memory 6144
 $ minikube config set cpus 6
-$ minikube config set disk-size 8000MB
+$ minikube config set disk-size 16000MB
 ```
 run minikube 
 ```
@@ -47,7 +47,13 @@ The output should show you the basic cluster info consists with one node.
 export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" svc nexus-nexus3)
 export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
 echo http://$NODE_IP:$NODE_PORT/
-```  
+```
+To get initial admin password run the following command:
+```
+kubectl exec --namespace default "{POD-NAME}" cat /nexus-data/admin.password
+```
+
+
   #### Jenkins
   #### Use the following command to retrieve admin password:
 ```
