@@ -51,7 +51,7 @@ Let's deploy our charts:
 helm install nexus3 ./nexus3-0.2.0/nexus3/
 ```
 
- #### Execute the following command to get address of Nexus service:
+Execute the following command to get address of Nexus service:
 ```
 export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" svc nexus-nexus3)
 export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
@@ -67,13 +67,12 @@ kubectl exec --namespace default "{POD-NAME}" cat /nexus-data/admin.password
 helm install jenkins ./jenkins-1.9.7/jenkins/
 ```
 
-#### Use the following command to retrieve admin password:
+Use the following command to retrieve admin password:
 ```
 export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=jenkins,app.kubernetes.io/instance=jenkins" -o jsonpath="{.items[0].metadata.name}")
 kubectl exec --namespace default "$POD_NAME" cat /var/jenkins_home/secrets/initialAdminPassword
 ```
-
-#### Accessing your Jenkins server:
+Accessing your Jenkins server:
 ```
 export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" svc jenkins)
 export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
@@ -82,5 +81,11 @@ echo http://$NODE_IP:$NODE_PORT/
 #### Sonarqube
 ```
 helm install sonarqube ./sonarqube-3.2.5/sonarqube/
+```
+Accessing your SonarQube server:
+```
+export POD_NAME=$(kubectl get pods --namespace default -l "app=sonarqube,release=sonarqube" -o jsonpath="{.items[0].metadata.name}")
+echo "Visit http://127.0.0.1:9000 to use your application"
+kubectl port-forward $POD_NAME 9000:9000
 ```
 The default user is sonaUser and pass is sonarPass
