@@ -1,0 +1,5 @@
+FROM tomcat:9.0.29-jdk11-openjdk
+
+COPY ./web/target/*.war /usr/local/tomcat/webapps/
+
+RUN echo "To use Time Tracker go to http://<-You Server’s IP Address->/time-tracker-web-0.3.1/"
