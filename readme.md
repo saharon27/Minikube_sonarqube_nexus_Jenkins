@@ -19,9 +19,12 @@ All will run locally using minikube and HELM for deployemnt.
 
 ### Next we will need the Charts for Helm:
 
-* Jenkins: https://hub.helm.sh/charts/codecentric/jenkins
+All the needed charts are in this repo. They were changed to fit the need of this project.
+Here is the list of the originals:
+
+* Jenkins: https://github.com/helm/charts/tree/master/stable/jenkins
 * Nexus: https://hub.helm.sh/charts/choerodon/nexus3
-* SonarQube:
+* SonarQube: https://hub.helm.sh/charts/stable/sonarqube
 
 
 ### Let's start deploying
@@ -42,7 +45,13 @@ $ kubectl get nodes
 ```
 The output should show you the basic cluster info consists with one node.
 
- #### Execute the following command to route the connection for Nexus service:
+Let's deploy our charts:
+#### Nexus:
+```
+helm install nexus3 ./nexus3-0.2.0/nexus3/
+```
+
+ #### Execute the following command to get address of Nexus service:
 ```
 export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" svc nexus-nexus3)
 export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
@@ -53,18 +62,25 @@ To get initial admin password run the following command:
 kubectl exec --namespace default "{POD-NAME}" cat /nexus-data/admin.password
 ```
 
+#### Jenkins
+```
+helm install jenkins ./jenkins-1.9.7/jenkins/
+```
 
-  #### Jenkins
-  #### Use the following command to retrieve admin password:
+#### Use the following command to retrieve admin password:
 ```
 export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=jenkins,app.kubernetes.io/instance=jenkins" -o jsonpath="{.items[0].metadata.name}")
 kubectl exec --namespace default "$POD_NAME" cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
 #### Accessing your Jenkins server:
-
-Create port forwarding to access Jenkins at http://127.0.0.1:8080
 ```
-export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=jenkins,app.kubernetes.io/instance=jenkins" -o jsonpath="{.items[0].metadata.name}")
-kubectl port-forward --namespace default "$POD_NAME" 8080:8080
+export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" svc jenkins)
+export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
+echo http://$NODE_IP:$NODE_PORT/
 ```
+#### Sonarqube
+```
+helm install sonarqube ./sonarqube-3.2.5/sonarqube/
+```
+The default user is sonaUser and pass is sonarPass
