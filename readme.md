@@ -23,7 +23,7 @@ All the needed charts are in this repo. They were changed to fit the need of thi
 Here is the list of the originals:
 
 * Jenkins: https://github.com/helm/charts/tree/master/stable/jenkins
-* Nexus: https://hub.helm.sh/charts/choerodon/nexus3
+* Nexus: https://hub.helm.sh/charts/stable/sonatype-nexus
 * SonarQube: https://hub.helm.sh/charts/stable/sonarqube
 
 
@@ -48,15 +48,11 @@ The output should show you the basic cluster info consists with one node.
 Let's deploy our charts:
 #### Nexus:
 ```
-helm install nexus3 ./nexus3-0.2.0/nexus3/
+helm install nexus3 ./sonatype-nexus-1.21.1/sonatype-nexus/
 ```
 
-Execute the following command to get address of Nexus service:
-```
-export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" svc nexus-nexus3)
-export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
-echo http://$NODE_IP:$NODE_PORT/
-```
+Nexus is deployed as stateful set over Ingress so you can reach it by going to http://nexus.minikube/
+
 To get initial admin password run the following command:
 ```
 kubectl exec --namespace default "{POD-NAME}" cat /nexus-data/admin.password
