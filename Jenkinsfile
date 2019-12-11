@@ -88,7 +88,8 @@ pipeline {
         }   
       }
     }
-    post {
+  }
+  post {
       success {
           mail to: 'sharonisgizmo@yahoo.com',
                   subject: "passed Pipeline: ${currentBuild.fullDisplayName}",
@@ -101,5 +102,4 @@ pipeline {
                   body: "Something is wrong with ${env.BUILD_URL}"
         }
     }
-  }
 }
