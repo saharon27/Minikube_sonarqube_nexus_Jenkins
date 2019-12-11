@@ -94,6 +94,10 @@ The default user is sonaUser and pass is sonarPass
 ### Some comments on working with the deployment:
 
 * It is recommended to change passwords once deployed.
+* For all deployments using Ingress you will need to add them to the /etc/hosts file. for example:
+```
+echo $(minikube ip) sonar.minikube | sudo tee --append /etc/hosts
+```
 * It is important to supply Jenkin k8s plugin with a .pfx file to allow it to create pods in Minikube cluster.use this      instructions:
 ```
 The client certificate needs to be converted to PKCS, will need a password
