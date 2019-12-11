@@ -83,7 +83,7 @@ pipeline {
             sh 'docker login -u $USER -p $PASSWORD nexus-docker.minikube'
             sh 'docker image tag sharon/time-tracker:0.3.1 nexus-docker.minikube/time-tracker:0.3.1'
             sh 'docker push nexus-docker.minikube/time-tracker:0.3.1'
-            sh 'docker rmi $(docker images --filter=reference="nexus-docker.minikube/time-tracker*" -q)'
+            sh 'docker rmi -f $(docker images --filter=reference="nexus-docker.minikube/time-tracker*" -q)'
           }
         }   
       }
@@ -93,7 +93,7 @@ pipeline {
       success {
           mail to: 'sharonisgizmo@yahoo.com',
                   subject: "passed Pipeline: ${currentBuild.fullDisplayName}",
-                  body: "Something is OK with ${env.BUILD_URL}"
+                  body: "Build is OK with ${env.BUILD_URL}"
         }
       failure {
           // notify users when the Pipeline fails
