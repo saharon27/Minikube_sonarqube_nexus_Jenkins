@@ -40,6 +40,10 @@ run minikube
 ```
 $ minikube start
 ```
+if you want to use Nexus as docker registry and not change definitions in the deployment, please start minikube with --insecure flag
+```
+minikube start --insecure-registry=nexus-docker.minikube
+```
 check that all is well
 ```
 $ kubectl get nodes
